@@ -1,0 +1,20 @@
+name: お問い合わせ / Contact
+description: アプリへのご質問・不具合のご報告 / Questions and bug reports
+body:
+  - type: dropdown
+    id: app
+    attributes:
+      label: アプリ / App
+      options:
+        - SpotPocket
+        - Ponsa
+        - QRCodeChecker
+    validations:
+      required: true
+  - type: textarea
+    id: body
+    attributes:
+      label: 内容 / Details
+      description: 起きたこと・お使いの iOS バージョンなど / What happened, your iOS version, etc.
+    validations:
+      required: true
