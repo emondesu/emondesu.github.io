@@ -10,8 +10,23 @@
 ├── index.html     # 開発者トップ（アプリ一覧）
 ├── app-ads.txt    # AdMob の販売者認証。全アプリ共通（下記）
 ├── .nojekyll      # GitHub Pages の Jekyll 処理を止め、置いたファイルをそのまま配信させる
-└── <app>/         # アプリごとのページ（privacy.html / support.html など）
+├── spotpocket/    # SpotPocket: index.html（LP）・support.html・privacy.html・assets/
+├── ponsa/         # Ponsa: privacy.html
+└── qrcodechecker/ # QRCodeChecker: privacy.html
 ```
+
+各アプリのページは 2026-11-01 にアプリ別リポジトリから移した。
+
+| アプリ | 新しい URL（正） | 旧 URL（転送ページとして残置） |
+|---|---|---|
+| SpotPocket | `/spotpocket/`・`/spotpocket/support.html`・`/spotpocket/privacy.html` | `/spotpocket-pages/`・`/spotpocket-pages/support.html`・`/spotpocket-pages/privacy.html` |
+| Ponsa | `/ponsa/privacy.html` | `/ponsa-public/privacy-policy.html` |
+| QRCodeChecker | `/qrcodechecker/privacy.html` | `/qrcodechecker-support/` |
+
+- 旧 URL は配布済みアプリと App Store に登録済みのため、旧リポジトリに転送ページ（meta refresh）を置いて残している。**旧リポジトリは削除しないこと**
+- **SpotPocket の遠隔停止スイッチ `remote-flags.json` は移していない**。配布済みアプリが `https://emondesu.github.io/spotpocket-pages/config/remote-flags.json` を直接読むため、正は旧リポジトリ `spotpocket-pages` の `config/` のまま（転送ページでは JSON を読めない）
+- 問い合わせ先の GitHub Issues は各旧リポジトリのまま（`spotpocket-pages/issues`・`qrcodechecker-support/issues`）
+- SpotPocket のプライバシーポリシーの原稿は SpotPocket リポジトリの `appstore/privacy-policy.md`。本文を変えたら `spotpocket/privacy.html` も更新する（二重管理）
 
 ## app-ads.txt
 
@@ -26,7 +41,7 @@
 2. `index.html` の一覧に1項目足す
 3. App Store Connect のプライバシーポリシー URL・サポート URL・マーケティング URL をこのドメインの下に設定する
 
-既存アプリのページ（`spotpocket-pages` / `ponsa-public` / `qrcodechecker-support` の各リポジトリ）は、アプリ本体や App Store に URL が登録済みのため現状維持。移すときは App Store の URL 変更（新バージョンの提出が必要）とセットで行う。
+URL を一度 App Store やアプリ本体に登録したら、ページを動かさないこと（動かすなら旧 URL に転送ページを残す）。
 
 ## 別のホスティングへ公開する
 

@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SpotPocket — SNSで見つけた「行きたい場所」を、共有ボタンひとつで</title>
+<meta name="description" content="Instagram・YouTube・TikTok・X・食べログ・Google マップで見つけたお店や観光スポットを、共有シートからワンタップで保存。シーン・エリア・マップで整理して、出かける日にすぐ取り出せる iPhone アプリ。保存先は端末の中だけ。無料。">
+<link rel="canonical" href="https://emondesu.github.io/spotpocket/">
+<meta name="theme-color" content="#2DBFCE">
+<link rel="icon" href="./assets/icon.png">
+<link rel="apple-touch-icon" href="./assets/icon.png">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SpotPocket">
+<meta property="og:title" content="SpotPocket — あのお店、どこで見たんだっけ">
+<meta property="og:description" content="SNSに散らばった「行きたい場所」を、共有ボタンひとつでひとつのポケットに。シーン・エリア・マップで整理できる iPhone アプリ。">
+<meta property="og:url" content="https://emondesu.github.io/spotpocket/">
+<meta property="og:image" content="https://emondesu.github.io/spotpocket/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SpotPocket — あのお店、どこで見たんだっけ">
+<meta name="twitter:description" content="SNSに散らばった「行きたい場所」を、共有ボタンひとつでひとつのポケットに。">
+<meta name="twitter:image" content="https://emondesu.github.io/spotpocket/assets/og.jpg">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "SpotPocket",
+  "applicationCategory": "TravelApplication",
+  "operatingSystem": "iOS 17.0 以降",
+  "url": "https://emondesu.github.io/spotpocket/",
+  "downloadUrl": "https://apps.apple.com/app/id6793165250",
+  "description": "Instagram・YouTube・TikTok・X・食べログ・Google マップで見つけた「行きたい場所」を、共有シートからワンタップで保存し、シーン・エリア・マップで整理できる iPhone アプリ。",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+  "author": { "@type": "Organization", "name": "diproject" }
+}
+</script>
+
+<style>
+  :root {
+    --teal:        #2AB3C4;
+    --teal-top:    #2DBFCE;
+    --teal-bottom: #169EAF;
+    --teal-deep:   #1A8C9E;
+    --ink:         #23303a;
+    --ink-soft:    #4c606d;
+    --muted:       #5f7280;
+    --ground:      #f8f9fb;
+    --surface:     #ffffff;
+    --hairline:    #e3e6eb;
+    --orange:      #ff9429;
+    --purple:      #8f70d9;
+    --green:       #33c77d;
+    --blue:        #4085f5;
+    --radius-card: 20px;
+    --shell: 1080px;
+    --font: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN",
+            "Noto Sans JP", "Yu Gothic Medium", "Meiryo", sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: var(--font);
+    color: var(--ink);
+    background: var(--ground);
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+    text-size-adjust: 100%;
+  }
+  img, svg, video { max-width: 100%; height: auto; display: block; }
+  a { color: var(--teal-deep); }
+
+  .shell { max-width: var(--shell); margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- ヘッダー ---------- */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,.86);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+    backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid rgba(35,48,58,.08);
+  }
+  .topbar .shell { display: flex; align-items: center; gap: 12px; height: 60px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); font-weight: 700; letter-spacing: .01em; }
+  .brand img { width: 30px; height: 30px; border-radius: 8px; }
+  .topbar nav { margin-left: auto; display: flex; align-items: center; gap: 20px; font-size: .92rem; }
+  .topbar nav a { color: var(--ink-soft); text-decoration: none; }
+  .topbar nav a:hover { color: var(--teal-deep); }
+  .topbar .cta {
+    background: var(--teal); color: #fff; padding: 8px 16px; border-radius: 999px;
+    font-weight: 700; text-decoration: none; font-size: .9rem; white-space: nowrap;
+  }
+  .topbar .cta:hover { background: var(--teal-deep); color: #fff; }
+  @media (max-width: 640px) { .topbar nav .hide-sm { display: none; } }
+
+  /* ---------- ヒーロー ---------- */
+  .hero {
+    background: linear-gradient(180deg, var(--teal-top) 0%, var(--teal-bottom) 100%);
+    color: #fff;
+    padding: 64px 0 0;
+    position: relative;
+  }
+  .hero .shell { display: grid; gap: 36px; grid-template-columns: 1fr; align-items: center; }
+  @media (min-width: 900px) {
+    .hero { padding-top: 72px; }
+    .hero .shell { grid-template-columns: 1.12fr .88fr; gap: 32px; }
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.34);
+    padding: 5px 14px; border-radius: 999px; font-size: .82rem; font-weight: 700;
+    letter-spacing: .04em;
+  }
+  .hero h1 {
+    font-size: clamp(2.1rem, 6.4vw, 3.35rem);
+    line-height: 1.32; letter-spacing: .005em; font-weight: 700;
+    margin: 20px 0 16px; text-wrap: balance;
+  }
+  .hero .lead { font-size: clamp(1rem, 2.4vw, 1.1rem); margin: 0 0 28px; max-width: 34em; color: rgba(255,255,255,.94); }
+  .hero .lead b { font-weight: 700; }
+  .badge-row { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+  .badge-row img { height: 52px; width: auto; }
+  .badge-row a { display: inline-block; transition: transform .18s ease; }
+  .badge-row a:hover { transform: translateY(-2px); }
+  .hero .fineprint { margin: 18px 0 0; font-size: .85rem; color: rgba(255,255,255,.8); }
+
+  .hero-device { justify-self: center; width: min(268px, 68vw); margin-bottom: -96px; }
+  @media (min-width: 900px) { .hero-device { width: min(292px, 30vw); margin-bottom: -128px; } }
+
+  .device {
+    border-radius: 16.3% / 7.6%;
+    box-shadow: 0 34px 64px -22px rgba(9,52,60,.48), 0 10px 24px -12px rgba(9,52,60,.30);
+  }
+
+  /* ---------- ソースの帯 ---------- */
+  .sources { background: var(--surface); border-bottom: 1px solid var(--hairline); padding: 128px 0 34px; }
+  @media (min-width: 900px) { .sources { padding-top: 162px; } }
+  .sources p { margin: 0 0 14px; text-align: center; font-size: .85rem; color: var(--muted); letter-spacing: .06em; font-weight: 700; }
+  .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+  .chip {
+    border: 1px solid var(--hairline); background: #fff; color: var(--ink-soft);
+    padding: 7px 15px; border-radius: 999px; font-size: .9rem; font-weight: 700;
+  }
+  .chip::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 9px; vertical-align: 1px; background: var(--teal); }
+  .chip.c-orange::before { background: var(--orange); }
+  .chip.c-purple::before { background: var(--purple); }
+  .chip.c-green::before  { background: var(--green); }
+  .chip.c-blue::before   { background: var(--blue); }
+
+  /* ---------- 機能セクション ---------- */
+  section.feature { padding: 76px 0; }
+  section.feature:nth-of-type(even) { background: var(--surface); }
+  .feature .shell { display: grid; gap: 40px; grid-template-columns: 1fr; align-items: center; }
+  @media (min-width: 880px) {
+    .feature .shell { grid-template-columns: 1fr 1fr; gap: 64px; }
+    .feature.flip .copy { order: 2; }
+    .feature.flip .shots { order: 1; }
+  }
+  .step {
+    display: inline-block; font-size: .78rem; font-weight: 700; letter-spacing: .14em;
+    color: var(--teal-deep); background: rgba(42,179,196,.12);
+    padding: 4px 12px; border-radius: 999px; margin-bottom: 14px;
+  }
+  .feature h2 {
+    font-size: clamp(1.6rem, 4.4vw, 2.1rem); line-height: 1.42; font-weight: 700;
+    margin: 0 0 16px; letter-spacing: .005em; text-wrap: balance;
+  }
+  .feature p { margin: 0 0 18px; color: var(--ink-soft); }
+  .feature ul { margin: 0; padding: 0; list-style: none; }
+  .feature ul li { position: relative; padding-left: 26px; margin-bottom: 8px; color: var(--ink-soft); }
+  .feature ul li::before {
+    content: ""; position: absolute; left: 4px; top: .72em;
+    width: 9px; height: 9px; border-radius: 3px; background: var(--teal); opacity: .85;
+  }
+  .shots { display: flex; justify-content: center; gap: 18px; }
+  .shots img { width: min(268px, 62vw); }
+  .shots.pair img { width: min(212px, 42vw); }
+  .shots.pair img:last-child { margin-top: 44px; }
+
+  /* ---------- 機能グリッド ---------- */
+  .grid-section { padding: 76px 0; background: var(--surface); border-top: 1px solid var(--hairline); }
+  .section-head { text-align: center; margin-bottom: 44px; }
+  .section-head h2 { font-size: clamp(1.5rem, 4vw, 1.95rem); font-weight: 700; margin: 0 0 10px; }
+  .section-head p { margin: 0; color: var(--muted); }
+  .cards { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(238px, 1fr)); }
+  .card {
+    background: var(--ground); border: 1px solid var(--hairline);
+    border-radius: var(--radius-card); padding: 22px 22px 20px;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px -16px rgba(21,60,70,.35); }
+  .card h3 { margin: 0 0 8px; font-size: 1.02rem; font-weight: 700; }
+  .card p { margin: 0; font-size: .92rem; color: var(--ink-soft); line-height: 1.75; }
+  .card .dot { display: block; width: 26px; height: 26px; border-radius: 9px; margin-bottom: 14px; background: var(--teal); opacity: .9; }
+  .card:nth-child(8n+2) .dot { background: var(--orange); }
+  .card:nth-child(8n+3) .dot { background: var(--purple); }
+  .card:nth-child(8n+4) .dot { background: var(--green); }
+  .card:nth-child(8n+5) .dot { background: var(--blue); }
+  .card:nth-child(8n+7) .dot { background: var(--teal-deep); }
+
+  /* ---------- プライバシー ---------- */
+  .privacy { background: linear-gradient(180deg, var(--teal-top) 0%, var(--teal-bottom) 100%); color: #fff; padding: 76px 0; }
+  .privacy .section-head h2 { color: #fff; }
+  .privacy .section-head p { color: rgba(255,255,255,.88); }
+  .privacy .cards { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+  .privacy .card {
+    background: rgba(255,255,255,.13); border-color: rgba(255,255,255,.26);
+    color: #fff; backdrop-filter: blur(2px);
+  }
+  .privacy .card:hover { transform: none; box-shadow: none; }
+  .privacy .card p { color: rgba(255,255,255,.92); }
+  .privacy .card .dot { background: rgba(255,255,255,.85); }
+  .privacy .note { margin: 26px 0 0; text-align: center; font-size: .88rem; color: rgba(255,255,255,.85); }
+  .privacy .note a { color: #fff; text-underline-offset: 3px; }
+
+  /* ---------- CTA ---------- */
+  .cta-section { padding: 82px 0; text-align: center; background: var(--surface); }
+  .cta-section img.appicon { width: 84px; height: 84px; border-radius: 20px; margin: 0 auto 20px; box-shadow: 0 12px 26px -14px rgba(21,60,70,.5); }
+  .cta-section h2 { font-size: clamp(1.5rem, 4vw, 2rem); margin: 0 0 10px; font-weight: 700; }
+  .cta-section p { margin: 0 0 26px; color: var(--muted); }
+  .cta-section .badge-row { justify-content: center; }
+
+  /* ---------- サポート / EN ---------- */
+  .support { padding: 64px 0; border-top: 1px solid var(--hairline); }
+  .support .cards { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .support .card { background: var(--surface); }
+  .support .card a { font-weight: 700; text-decoration: none; }
+  .support .card a:hover { text-decoration: underline; }
+
+  .en { padding: 64px 0 72px; background: var(--surface); border-top: 1px solid var(--hairline); color: var(--ink-soft); }
+  .en h2 { color: var(--ink); font-size: 1.5rem; margin: 0 0 6px; font-weight: 700; }
+  .en .tagline { font-size: 1.05rem; color: var(--ink); margin: 0 0 18px; font-weight: 700; }
+  .en ul { padding-left: 1.15em; margin: 0 0 22px; }
+  .en li { margin-bottom: 6px; }
+  .en .badge-row img { height: 46px; }
+
+  footer { background: var(--ground); text-align: center; color: var(--muted); font-size: .85rem; padding: 30px 24px 40px; border-top: 1px solid var(--hairline); }
+  footer nav { margin-bottom: 12px; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+  footer a { color: var(--muted); }
+
+  /* ---------- モーション ---------- */
+  /* JS が動いているときだけ隠す（IntersectionObserver が発火しない環境でも本文が消えないように） */
+  .js [data-reveal] { opacity: 0; transform: translateY(18px); }
+  .js [data-reveal].in { opacity: 1; transform: none; transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1); }
+  .rise { animation: rise .8s cubic-bezier(.2,.7,.3,1) both; }
+  .d1 { animation-delay: .05s; } .d2 { animation-delay: .14s; }
+  .d3 { animation-delay: .23s; } .d4 { animation-delay: .32s; } .d5 { animation-delay: .4s; }
+  @keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .rise { animation: none; }
+    .js [data-reveal] { opacity: 1; transform: none; transition: none; }
+    .card, .badge-row a { transition: none; }
+  }
+</style>
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="shell">
+    <a class="brand" href="#top"><img src="./assets/icon.png" alt=""><span>SpotPocket</span></a>
+    <nav>
+      <a class="hide-sm" href="#features">できること</a>
+      <a class="hide-sm" href="#privacy">プライバシー</a>
+      <a class="hide-sm" href="./support.html">サポート</a>
+      <a class="cta" href="https://apps.apple.com/app/id6793165250">無料で入手</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="shell">
+      <div class="copy">
+        <span class="eyebrow rise d1">iPhone アプリ・無料</span>
+        <h1 class="rise d2">あのお店、<br>どこで見たんだっけ</h1>
+        <p class="lead rise d3">
+          Instagram で見たカフェ、YouTube で見た観光地、友だちが送ってくれた食べログのリンク。
+          <b>行きたい場所は、アプリごとにバラバラに散らばっていきます。</b>
+          SpotPocket は、それを共有ボタンひとつでひとつのポケットにまとめる iPhone アプリです。
+        </p>
+        <div class="badge-row rise d4">
+          <a href="https://apps.apple.com/app/id6793165250">
+            <img src="./assets/appstore-badge-ja.svg" alt="App Store でダウンロード">
+          </a>
+        </div>
+        <p class="fineprint rise d5">iOS 17.0 以降の iPhone に対応・アカウント登録不要</p>
+      </div>
+      <img class="hero-device device rise d3" src="./assets/shot-01.jpg" width="580" height="1238"
+           alt="SpotPocket のホーム画面。近くに保存したスポットがあることを知らせるカード、今日のイベント、近くのスポットの一覧が並んでいる">
+    </div>
+  </section>
+
+  <section class="sources">
+    <div class="shell">
+      <p data-reveal>保存できるところ</p>
+      <div class="chips" data-reveal>
+        <span class="chip c-purple">Instagram</span>
+        <span class="chip">YouTube</span>
+        <span class="chip c-blue">TikTok</span>
+        <span class="chip">X</span>
+        <span class="chip c-orange">食べログ</span>
+        <span class="chip c-green">Google マップ</span>
+        <span class="chip">Web ページ</span>
+      </div>
+    </div>
+  </section>
+
+  <div id="features"></div>
+
+  <section class="feature">
+    <div class="shell">
+      <div class="copy" data-reveal>
+        <span class="step">STEP 1 ・ ためる</span>
+        <h2>気になるお店は、共有ボタンひとつ</h2>
+        <p>
+          見つけたその場で、アプリの共有シートから SpotPocket を選ぶだけ。
+          アプリを行き来する必要も、あとで貼り直す手間もありません。
+        </p>
+        <ul>
+          <li>タイトル・サムネイル・お店の場所は、次にアプリを開いたときに自動で埋まる</li>
+          <li>電波が悪い場所でも、保存だけ先に済ませられる</li>
+          <li>同じリンクをもう一度保存しようとすると教えてくれる</li>
+        </ul>
+      </div>
+      <div class="shots" data-reveal>
+        <img class="device" src="./assets/shot-02.jpg" width="580" height="1238"
+             alt="共有シートから開いた SpotPocket の保存画面。URL・タイトル・シーン・タグ・メモを確認して保存できる">
+      </div>
+    </div>
+  </section>
+
+  <section class="feature flip">
+    <div class="shell">
+      <div class="copy" data-reveal>
+        <span class="step">STEP 2 ・ 整える</span>
+        <h2>集めるほど、迷わなくなる</h2>
+        <p>
+          「ランチ」「居酒屋」「お買い物」——行きたい場所を、その日の行動タイプ＝<b>シーン</b>でまとめます。
+          「渋谷」「京都」など自分で決めた<b>エリア</b>に割り当てておけば、旅先が決まったときに棚から取り出すだけ。
+        </p>
+        <ul>
+          <li>エリアは保存したあとから設定でき、住所がわかっていれば候補も出る</li>
+          <li>エリアの棚は五十音順。増えても目的の場所にすぐ届く</li>
+          <li>タイトル・メモ・タグ・シーン名・エリア名・SNS の種類から検索できる</li>
+        </ul>
+      </div>
+      <div class="shots pair" data-reveal>
+        <img class="device" src="./assets/shot-03.jpg" width="580" height="1238"
+             alt="シーン「カフェ巡り」の詳細画面。保存したお店がサムネイル付きのカードで並んでいる">
+        <img class="device" src="./assets/shot-06.jpg" width="580" height="1238"
+             alt="一覧タブのエリアの棚。エリアが五十音順に並び、右端に索引バーがある">
+      </div>
+    </div>
+  </section>
+
+  <section class="feature">
+    <div class="shell">
+      <div class="copy" data-reveal>
+        <span class="step">STEP 3 ・ 出かける</span>
+        <h2>お出かけの日は、地図が教えてくれる</h2>
+        <p>
+          保存した場所はマップにまとまります。エリア・シーン・「まだ行っていない場所だけ」で絞り込めるので、
+          いま歩いている街で「そういえば近くに保存してたな」を取りこぼしません。
+        </p>
+        <ul>
+          <li>徒歩10分圏内に保存したスポットがあると、ホームに「いまここ」カードが出る</li>
+          <li>徒歩距離順にならべて、「営業中のみ」に絞れる</li>
+          <li>行った場所は「行ってきた」に切り替えて、行きたいところだけを残せる</li>
+        </ul>
+      </div>
+      <div class="shots" data-reveal>
+        <img class="device" src="./assets/shot-04.jpg" width="580" height="1238"
+             alt="マップタブ。エリア「渋谷」で絞り込まれ、保存したスポットのピンが表示されている">
+      </div>
+    </div>
+  </section>
+
+  <section class="feature flip">
+    <div class="shell">
+      <div class="copy" data-reveal>
+        <span class="step">期間限定にも</span>
+        <h2>期間限定は、終わる前に行く</h2>
+        <p>
+          ポップアップや展示、季節のフェア。開催期間つきで保存しておけば、
+          カレンダーで見渡せて、始まる日には通知が届きます。
+        </p>
+        <ul>
+          <li>月カレンダーで開催期間をまとめて確認できる</li>
+          <li>マップでは開催中・開催予定のイベントがある施設にバッジが付く</li>
+          <li>ホームには「今日のイベント」が並ぶ</li>
+        </ul>
+      </div>
+      <div class="shots" data-reveal>
+        <img class="device" src="./assets/shot-05.jpg" width="580" height="1238"
+             alt="イベントの詳細画面。開催期間と開催施設が表示されている">
+      </div>
+    </div>
+  </section>
+
+  <section class="grid-section">
+    <div class="shell">
+      <div class="section-head" data-reveal>
+        <h2>ほかにも、こんなことができます</h2>
+        <p>ためるだけで終わらせないための道具が、ひととおり揃っています。</p>
+      </div>
+      <div class="cards" data-reveal>
+        <div class="card">
+          <span class="dot"></span>
+          <h3>旅のしおり</h3>
+          <p>保存したスポットを「1日目・2日目・未定」に並べてお出かけプランに。表紙と出発日を決めると、出発までのカウントダウンが出ます。</p>
+        </div>
+        <div class="card">
+          <span class="dot"></span>
+          <h3>おすそわけ</h3>
+          <p>しおりを画像で見せるか、SpotPocket でだけ開けるファイルで渡せます。受け取った人はそのまま自分のアプリに取り込めます。</p>
+        </div>
+        <div class="card">
+          <span class="dot"></span>
+          <h3>ホーム画面ウィジェット</h3>
+          <p>次のお出かけまでのカウントダウンと、保存したスポットの数をホーム画面に表示できます。</p>
+        </div>
+        <div class="card">
+          <span class="dot"></span>
+          <h3>行った / 行きたい</h3>
+          <p>訪れたスポットは「行ってきた」に。マップでも一覧でも、まだ行っていない場所だけに絞り込めます。</p>
+        </div>
+        <div class="card">
+          <span class="dot"></span>
+          <h3>タグとメモ</h3>
+          <p>自分でつけるタグに加えて、投稿のキャプションからハッシュタグを自動で拾います。「なぜ行きたいのか」はメモに。</p>
+        </div>
+        <div class="card">
+          <span class="dot"></span>
+          <h3>オフライン保存</h3>
+          <p>地下や山の中でも保存だけは通ります。タイトルやサムネイルは、電波が戻ってから自動で取りに行きます。</p>
+        </div>
+        <div class="card">
+          <span class="dot"></span>
+          <h3>バックアップ</h3>
+          <p>保存したデータをまるごとファイルに書き出して、あとから復元できます。機種変更のときも安心です。</p>
+        </div>
+        <div class="card">
+          <span class="dot"></span>
+          <h3>重複の防止</h3>
+          <p>同じ URL をもう一度保存しようとすると、先に保存したものを教えてくれます。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="privacy" id="privacy">
+    <div class="shell">
+      <div class="section-head" data-reveal>
+        <h2>保存先は、あなたの端末の中だけ</h2>
+        <p>「行きたい場所」は、けっこう個人的な情報です。だから最初からそう作りました。</p>
+      </div>
+      <div class="cards" data-reveal>
+        <div class="card">
+          <span class="dot"></span>
+          <h3>開発者のサーバーはありません</h3>
+          <p>保存した URL・タイトル・タグ・メモ・位置情報は端末内にだけ保存され、開発者が受け取ることはありません。</p>
+        </div>
+        <div class="card">
+          <span class="dot"></span>
+          <h3>アカウント登録・ログイン不要</h3>
+          <p>メールアドレスも電話番号も聞きません。入れたその場から使いはじめられます。</p>
+        </div>
+        <div class="card">
+          <span class="dot"></span>
+          <h3>トラッキングしません</h3>
+          <p>広告は興味関心に基づかない「非パーソナライズ広告」のみ。アプリを横断する追跡の許可を求めることもありません。</p>
+        </div>
+      </div>
+      <p class="note" data-reveal>
+        取り扱いの詳細は <a href="./privacy.html">プライバシーポリシー</a> に記載しています。
+      </p>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="shell" data-reveal>
+      <img class="appicon" src="./assets/icon.png" alt="SpotPocket のアプリアイコン">
+      <h2>行きたい場所を、ひとつのポケットに。</h2>
+      <p>無料でダウンロードできます。iOS 17.0 以降の iPhone に対応。</p>
+      <div class="badge-row">
+        <a href="https://apps.apple.com/app/id6793165250">
+          <img src="./assets/appstore-badge-ja.svg" alt="App Store でダウンロード">
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="support">
+    <div class="shell">
+      <div class="section-head" data-reveal>
+        <h2>困ったときは</h2>
+        <p>不具合の報告・ご要望・ご質問をお待ちしています。</p>
+      </div>
+      <div class="cards" data-reveal>
+        <div class="card">
+          <span class="dot"></span>
+          <h3>サポートページ</h3>
+          <p>使い方のヒントとお問い合わせ先をまとめています。<br><a href="./support.html">サポートを見る →</a></p>
+        </div>
+        <div class="card">
+          <span class="dot"></span>
+          <h3>お問い合わせ</h3>
+          <p>GitHub の Issue で受け付けています。<br><a href="https://github.com/emondesu/spotpocket-pages/issues">Issue を作成する →</a></p>
+        </div>
+        <div class="card">
+          <span class="dot"></span>
+          <h3>プライバシーポリシー</h3>
+          <p>取り扱う情報と、その範囲について。<br><a href="./privacy.html">ポリシーを読む →</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="en" id="en">
+    <div class="shell" data-reveal>
+      <h2>English</h2>
+      <p class="tagline">That place you saw — where was it again?</p>
+      <p>
+        SpotPocket is a free iPhone app that saves the places you want to visit from
+        Instagram, YouTube, TikTok, X, Tabelog, Google Maps, and the open web — with one tap
+        from each app's native Share Sheet.
+      </p>
+      <ul>
+        <li>Titles, thumbnails, and locations fill in automatically the next time you open the app</li>
+        <li>Organize by <b>scene</b> (lunch, drinks, shopping) and by <b>area</b> you define yourself</li>
+        <li>A "right here" card appears on Home when saved spots are within a 10-minute walk, with an "open now" filter</li>
+        <li>Save limited-time events with their dates, see them on a monthly calendar, and get a reminder when they start</li>
+        <li>Build trip plans and hand them to a friend as an image or a SpotPocket file — no server involved</li>
+        <li>Everything stays on your device. No account, no sign-in, no tracking; ads are non-personalized only</li>
+      </ul>
+      <div class="badge-row">
+        <a href="https://apps.apple.com/app/id6793165250">
+          <img src="./assets/appstore-badge-en.svg" alt="Download on the App Store">
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <nav>
+    <a href="./support.html">サポート / Support</a>
+    <a href="./privacy.html">プライバシーポリシー / Privacy</a>
+    <a href="https://github.com/emondesu/spotpocket-pages/issues">お問い合わせ / Contact</a>
+  </nav>
+  <div>© 2026 diproject</div>
+</footer>
+
+<script>
+  (function () {
+    var targets = document.querySelectorAll('[data-reveal]');
+    var revealAll = function () {
+      Array.prototype.forEach.call(targets, function (el) { el.classList.add('in'); });
+    };
+    if (!('IntersectionObserver' in window) ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      revealAll();
+      return;
+    }
+    // 監視が一度も発火しない環境への保険（本文が隠れたままにならないようにする）
+    window.setTimeout(revealAll, 4000);
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+    targets.forEach(function (el) { io.observe(el); });
+  })();
+</script>
+
+</body>
+</html>
